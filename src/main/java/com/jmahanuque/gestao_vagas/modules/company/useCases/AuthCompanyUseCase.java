@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.auth0.jwt.JWT;
 import com.jmahanuque.gestao_vagas.modules.company.dto.AuthCompanyDto;
 import com.jmahanuque.gestao_vagas.modules.company.repositories.CompanyRepository;
 
@@ -25,13 +26,12 @@ public class AuthCompanyUseCase {
                 throw new UsernameNotFoundException("Company not found");
             });
 
-        // Verify if passwords are same
+        // Verify if passwords matches
         var passwordMatches = this.passwordEncoder.matches(authCompanyDto.getPassword(), company.getPassword());
 
         if (!passwordMatches) {
             throw new AuthenticationException();
         }
-
-        
+        // If passwords matches -> Generate the token
     }
 }
